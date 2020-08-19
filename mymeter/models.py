@@ -22,6 +22,7 @@ class accounts(models.Model):
     _id=models.CharField(max_length=30)
     owner = models.ForeignKey(User, on_delete=models.CASCADE)  # relation
     package_type = models.CharField(max_length = 8, choices = packages, blank = True, default='NONE')  # query
+    telephone = models.CharField(max_length=30, default='[]')  # list
 
 class meters(models.Model):
     """
