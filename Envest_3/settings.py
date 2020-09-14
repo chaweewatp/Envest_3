@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'mymeter.apps.MymeterConfig',
+    'myAPI.apps.MyapiConfig',
 ]
 
 MIDDLEWARE = [
@@ -79,7 +80,7 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'meter_data_test',
-        'USER': 'djangouser',
+        'USER': 'root',
         'PASSWORD': 'F!rst123',
         'HOST': 'localhost',
         'PORT': '3306',

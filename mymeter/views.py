@@ -3,10 +3,14 @@ from django.shortcuts import render
 
 # Create your views here.
 
-def get_consumption_data():
 
-    return [10,20,30,40]
+def createTimeSlot():
+    """
+        This function generate string value of time slot for each hour in a day
 
+        example
+        input: None
+        return: ## 140007092020 (start-hour + date + month + year)
+    """
 
-def get_generation_data():
-    return [1,3,4,5]
+    return "140007092020"
