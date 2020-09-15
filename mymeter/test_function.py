@@ -1,5 +1,5 @@
 import numpy as np
-
+from .models import time_slot
 def allocate(consumption_data, generation_data):
     """
         Take array of consumption and generation data,
@@ -71,8 +71,14 @@ def getConsumptinData(date, mid, id):
     period = data[data.find('categories:')+11:data.find(',]', data.find('categories:'))+2]
     return consumption, period
 
+# x,y = getConsumptinData(date='2020-09-03', mid='41', id='1597134897931')
+# print(x)
+# print(y)
 
 
-x,y = getConsumptinData(date='2020-09-03', mid='41', id='1597134897931')
-print(x)
-print(y)
+def autoGenerateTimeSlot(time_slot):
+    for item1 in ["0{}".format(x) for x in range(0, 10)] + ["1{}".format(x) for x in range(0, 3)]:
+        for item2 in ["0{}".format(x) for x in range(0, 10)] + ["1{}".format(x) for x in range(0, 10)] + ["2{}".format(x) for x in range(0, 10)]+ ["3{}".format(x) for x in range(0, 2)]:
+            for item3 in ["0{}".format(x) for x in range(0, 10)] + ["1{}".format(x) for x in range(0, 10)] + ["2{}".format(x) for x in range(0, 4)]:
+                t = time_slot(text_time="{}00{}{}2020".format(item3, item2, item1))
+                t.save()

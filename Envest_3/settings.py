@@ -35,7 +35,6 @@ CORS_ORIGIN_WHITELIST = [
     'http://localhost:3001',
     'http://127.0.0.1:9000',
 ]
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -123,13 +122,13 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Bangkok'
 
 USE_I18N = True
 
 USE_L10N = True
 
-USE_TZ = True
+USE_TZ = False   # ใช้ datetime.datetime.now() เลยต้องตั้ง Timezone = False
 
 
 # Static files (CSS, JavaScript, Images)
