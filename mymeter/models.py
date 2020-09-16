@@ -47,7 +47,7 @@ class meters(models.Model):
     owner = models.ForeignKey(accounts, on_delete = models.CASCADE)  # relation
     location = models.CharField(max_length = 30, null = True, blank=True)
     area = models.ForeignKey(sub_area, on_delete=models.CASCADE, null=True, blank=True)  # relation
-    meter_id=models.CharField(blank=True, maxlength=20, null=True)
+    meter_id=models.CharField(blank=True, max_length=20, null=True) ## for get API value from meter network
 
     def __str__(self):
         return "{}-{}-{}".format(self.id, self.meter_id, self.location)
