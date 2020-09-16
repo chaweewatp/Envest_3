@@ -19,39 +19,44 @@ packages = (
 )
 # Create your models here.
 class accounts(models.Model):
-    created = models.DateTimeField(default=datetime.now)
-    owner = models.ForeignKey(User, on_delete=models.CASCADE)  # relation
+    created = models.DateTimeField(default = datetime.now)
+    owner = models.ForeignKey(User, on_delete = models.CASCADE)  # relation
     package_type = models.CharField(max_length = 8, choices = packages, blank = True, default='NONE')  # query
-    telephone = models.CharField(max_length=30, default='[]')  # list
+    telephone = models.CharField(max_length = 30, default='[]')  # list
 
     def __str__(self):
-        return "{}".format(self.id)
+        return "{}-{}".format(self.id, self.owner)
 
 class sub_area(models.Model):
     """
         This class provides area detail
     """
-    created = models.DateTimeField(default=datetime.now)
-    area_no = models.CharField(max_length = 3, null=True, blank=True)
-    area_text = models.CharField(max_length = 30, null=True, blank=True)
+    created = models.DateTimeField(default = datetime.now)
+    area_no = models.CharField(max_length = 3, null = True, blank = True)
+    area_text = models.CharField(max_length = 30, null = True, blank = True)
+
+    def __str__(self):
+        return "{}-{}".format(self.id, self.area_text)
 
 class meters(models.Model):
     """
         this class provides
     """
-    created = models.DateTimeField(default=datetime.now)
-    meter_type = models.CharField(max_length=8, choices=meter_type, blank=True, default='CUSTOMER')  # query
-    owner = models.ForeignKey(accounts, on_delete=models.CASCADE)  # relation
-    location = models.CharField(max_length=30, null=True, blank=True)
+    created = models.DateTimeField(default = datetime.now)
+    meter_type = models.CharField(max_length = 8, choices = meter_type, blank = True, default = 'CUSTOMER')  # query
+    owner = models.ForeignKey(accounts, on_delete = models.CASCADE)  # relation
+    location = models.CharField(max_length = 30, null = True, blank=True)
     area = models.ForeignKey(sub_area, on_delete=models.CASCADE, null=True, blank=True)  # relation
+    meter_id=models.CharField(blank=True, maxlength=20, null=True)
 
     def __str__(self):
-        return "{}".format(self.id)
+        return "{}-{}-{}".format(self.id, self.meter_id, self.location)
 
 class time_slot(models.Model):
 
     created = models.DateTimeField(default=datetime.now)
     text_time = models.CharField(max_length=30)  # start-hour + date + month + year example 140007092020
+
     def __str__(self):
         return "{}".format(self.text_time)
 
