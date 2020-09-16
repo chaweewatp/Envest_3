@@ -86,14 +86,25 @@ WSGI_APPLICATION = 'Envest_3.wsgi.application'
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
 DATABASES = {
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.mysql',
+    #     'NAME': 'meter_data_test',
+    #     'USER': 'root',
+    #     'PASSWORD': 'F!rst123',
+    #     'HOST': 'localhost',
+    #     'PORT': '3306',
+    # }
+
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'meter_data_test',
-        'USER': 'root',
-        'PASSWORD': 'F!rst123',
-        'HOST': 'localhost',
-        'PORT': '3306',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'de4mq7io7fk6vp',
+        'USER': 'yvvdltbwmfceve',
+        'PASSWORD': 'bd569cd97a94f6ba17c4f9d3bc2f806abd844d94057e291e9281b39127cbc266',
+        'HOST': 'ec2-34-230-231-71.compute-1.amazonaws.com',
+        'PORT': '5432',
+        'CONN_MAX_AGE': 500,
     }
+
 }
 
 
