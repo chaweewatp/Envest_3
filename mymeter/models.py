@@ -27,6 +27,9 @@ class accounts(models.Model):
     def __str__(self):
         return "{}-{}".format(self.id, self.owner)
 
+    def changePackage(self):
+        print("Package changed!")
+
 class sub_area(models.Model):
     """
         This class provides area detail
