@@ -27,8 +27,13 @@ class accounts(models.Model):
     def __str__(self):
         return "{}-{}".format(self.id, self.owner)
 
-    def changePackage(self):
-        print("Package changed!")
+    def changePackage(self, package):
+        """
+        This function change package for accounts
+        :arg package = 'NONE', 'SMALL', 'MEDIUM', 'LARGE'
+        """
+        self.package_type=package
+        self.save()
 
 class sub_area(models.Model):
     """
