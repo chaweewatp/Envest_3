@@ -13,6 +13,8 @@ from mymeter.models  import accounts, sub_area
 # Create your views here.
 
 @api_view(['POST'])
+@permission_classes((AllowAny,))  # here we specify permission by default we set IsAuthenticated
+
 def getEnergyData(request):
     """
     This function provides API for client.
@@ -40,6 +42,8 @@ def getEnergyData(request):
 
 
 @api_view(['POST'])
+@permission_classes((AllowAny,))  # here we specify permission by default we set IsAuthenticated
+
 def getEnergyDataMonth(request):
     try:
         data = json.loads(str(request.body, encoding='utf-8'))
@@ -59,6 +63,8 @@ def getEnergyDataMonth(request):
 
 
 @api_view(['POST'])
+@permission_classes((AllowAny,))  # here we specify permission by default we set IsAuthenticated
+
 def getEnergyDataDay(request):
     try:
         data = json.loads(str(request.body, encoding='utf-8'))
