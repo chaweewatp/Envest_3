@@ -70,7 +70,7 @@ def getEnergyDataDay(request):
         data = json.loads(str(request.body, encoding='utf-8'))
         return Response([{"meter_id": "1",
                           "day": {"text": data['date'],
-                                  "vspp": [0, 0, 0, 0, 0, 0, 0, 0, 0, 20, 4, 5, 60, 13, 23, 40, 55, 20, 0, 0, 0, 0, 0,
+                                  "vspp": [0, 0, 0, 0, 0, 0, 0, 0, 5, 20, 4, 5, 60, 13, 23, 40, 55, 0, 0, 0, 0, 0, 0,
                                            0],
                                   "grid": [13, 23, 40, 55, 20, 50, 30, 20, 0, 0, 0, 0, 0, 0, 0, 0, 0, 50, 40, 20, 30,
                                            10, 20, 20]
