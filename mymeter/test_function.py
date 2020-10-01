@@ -77,6 +77,11 @@ def getConsumptinData(date, mid, id):
 
 
 def autoGenerateTimeSlot(time_slot):
+    """
+    create time slot instance in database
+    :param time_slot:
+    :return no return:
+    """
     for item1 in ["0{}".format(x) for x in range(0, 10)] + ["1{}".format(x) for x in range(0, 3)]:
         for item2 in ["0{}".format(x) for x in range(0, 10)] + ["1{}".format(x) for x in range(0, 10)] + ["2{}".format(x) for x in range(0, 10)]+ ["3{}".format(x) for x in range(0, 2)]:
             for item3 in ["0{}".format(x) for x in range(0, 10)] + ["1{}".format(x) for x in range(0, 10)] + ["2{}".format(x) for x in range(0, 4)]:
