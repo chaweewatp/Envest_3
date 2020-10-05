@@ -4,19 +4,19 @@ from django.utils import timezone
 from datetime import datetime
 
 customer_type = (
-    ('VSPP', 'VSPP'),
-    ('CUSTOMER', 'CUSTOMER')
+    ('1', 'VSPP'),
+    ('2', 'CUSTOMER')
 )
 meter_type = (
-    ('VSPP', 'VSPP'),
-    ('CUSTOMER', 'CUSTOMER'),
-    ('GRID', 'GRID')
+    ('1', 'VSPP'),
+    ('2', 'CUSTOMER'),
+    ('3', 'GRID')
 )
 packages = (
-    ('SMALL', 'SMALL'),
-    ('MEDIUM', 'MEDIUM'),
-    ('LARGE', 'LARGE'),
-    ('NONE', 'NONE')
+    ('1', 'SMALL'),
+    ('2', 'MEDIUM'),
+    ('3', 'LARGE'),
+    ('4', 'NONE')
 )
 
 
@@ -24,7 +24,7 @@ packages = (
 class accounts(models.Model):
     created = models.DateTimeField(default=datetime.now)
     owner = models.ForeignKey(User, on_delete=models.CASCADE)  # relation
-    package_type = models.CharField(max_length=8, choices=packages, blank=True, default='NONE')  # query
+    package_type = models.CharField(max_length=8, choices=packages, blank=True, default='4')  # query
     telephone = models.CharField(max_length=30, default='[]')  # list
 
     def __str__(self):
@@ -35,6 +35,7 @@ class accounts(models.Model):
         This function change package for accounts
         :arg package = 'NONE', 'SMALL', 'MEDIUM', 'LARGE'
         """
+        print(package)
         self.package_type = package
         self.save()
 
@@ -56,7 +57,7 @@ class meters(models.Model):
         this class provides
     """
     created = models.DateTimeField(default=datetime.now)
-    meter_type = models.CharField(max_length=8, choices=meter_type, blank=True, default='CUSTOMER')  # query
+    meter_type = models.CharField(max_length=8, choices=meter_type, blank=True, default='2')  # query
     owner = models.ForeignKey(accounts, on_delete=models.CASCADE)  # relation
     location = models.CharField(max_length=30, null=True, blank=True)
     area = models.ForeignKey(sub_area, on_delete=models.CASCADE, null=True, blank=True)  # relation
