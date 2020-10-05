@@ -22,10 +22,7 @@ def getEnergyData(request):
     :return: meter id, vspp and grid energy on current month and day
     """
     try:
-        print('someone')
         data = json.loads(str(request.body, encoding='utf-8'))
-        print(data['date'])
-
         return Response([{"meter_id": "1",
                           "month": {"text": data['month'],
                                     "vspp": [130, 230, 400, 550, 200, 500, 300, 200, 100, 200, 40, 50, 600, 10, 230, 40,
@@ -43,7 +40,6 @@ def getEnergyData(request):
 
 @api_view(['POST'])
 @permission_classes((AllowAny,))  # here we specify permission by default we set IsAuthenticated
-
 def getEnergyDataMonth(request):
     try:
         data = json.loads(str(request.body, encoding='utf-8'))
@@ -64,7 +60,6 @@ def getEnergyDataMonth(request):
 
 @api_view(['POST'])
 @permission_classes((AllowAny,))  # here we specify permission by default we set IsAuthenticated
-
 def getEnergyDataDay(request):
     try:
         data = json.loads(str(request.body, encoding='utf-8'))
@@ -80,7 +75,6 @@ def getEnergyDataDay(request):
                           }])
     except ValueError as e:
         return Response(e.args[0], status.HTTP_400_BAD_REQUEST)
-
 
 @api_view(['POST'])
 def loginUser(request):
@@ -101,7 +95,6 @@ def loginUser(request):
 
 
 from django.contrib.auth import authenticate, login
-
 
 @api_view(['POST'])
 def loginUser2(request):
@@ -141,7 +134,6 @@ from .serializers import UserSerializer, UserSigninSerializer
 
 @api_view(['POST'])
 @permission_classes((AllowAny,))  # here we specify permission by default we set IsAuthenticated
-
 def signin(request):
     signin_serializer = UserSigninSerializer(data = request.data)
     if not signin_serializer.is_valid():
@@ -173,4 +165,19 @@ def user_info(request):
     return Response({
         'user': request.user.username,
         'expires_in': expires_in(request.auth)
+    }, status=HTTP_200_OK)
+
+
+@api_view(['POST'])
+def update_package(request):
+    """
+    this function updates user's package
+    :param package name
+    """
+    data = json.loads(str(request.body, encoding='utf-8'))
+    user = User.objects.get(username=data['username'])
+    acc = accounts.objects.get(owner=user)
+    acc.changePackage(package=data['new_package'])
+    return Response({
+        'text':'Okay'
     }, status=HTTP_200_OK)
