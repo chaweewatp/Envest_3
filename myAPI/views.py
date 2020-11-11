@@ -7,14 +7,13 @@ from rest_framework import status
 import json
 
 from django.contrib.auth.models import User
-from mymeter.models  import accounts, sub_area
+from mymeter.models import accounts, sub_area
 
 
 # Create your views here.
 
 @api_view(['POST'])
 @permission_classes((AllowAny,))  # here we specify permission by default we set IsAuthenticated
-
 def getEnergyData(request):
     """
     This function provides API for client.
@@ -134,50 +133,111 @@ from .serializers import UserSerializer, UserSigninSerializer
 
 @api_view(['POST'])
 @permission_classes((AllowAny,))  # here we specify permission by default we set IsAuthenticated
+def register(request):
+    try:
+
+        pass
+    except ValueError as e:
+        return Response(e.args[0], status.HTTP_400_BAD_REQUEST)
+
+@api_view(['POST'])
+@permission_classes((AllowAny,))  # here we specify permission by default we set IsAuthenticated
 def signin(request):
-    signin_serializer = UserSigninSerializer(data = request.data)
-    if not signin_serializer.is_valid():
-        return Response(signin_serializer.errors, status = HTTP_400_BAD_REQUEST)
+    try:
+        signin_serializer = UserSigninSerializer(data = request.data)
+        if not signin_serializer.is_valid():
+            return Response(signin_serializer.errors, status = HTTP_400_BAD_REQUEST)
 
-    user = authenticate(
-            username = signin_serializer.data['username'],
-            password = signin_serializer.data['password']
-        )
+        user = authenticate(
+                username = signin_serializer.data['username'],
+                password = signin_serializer.data['password']
+            )
 
-    if not user:
-        return Response({'detail': 'Invalid Credentials or activate account'}, status=HTTP_404_NOT_FOUND)
+        if not user:
+            return Response({'detail': 'Invalid Credentials or activate account'}, status=HTTP_404_NOT_FOUND)
 
-    #TOKEN STUFF
-    token, _ = Token.objects.get_or_create(user = user)
-    #token_expire_handler will check, if the token is expired it will generate new one
-    is_expired, token = token_expire_handler(token)     # The implementation will be described further
-    user_serialized = UserSerializer(user)
+        #TOKEN STUFF
+        token, _ = Token.objects.get_or_create(user = user)
+        #token_expire_handler will check, if the token is expired it will generate new one
+        is_expired, token = token_expire_handler(token)     # The implementation will be described further
+        user_serialized = UserSerializer(user)
+        print(token)
+        return Response({
+            'user': user_serialized.data,
+            'expires_in': expires_in(token),
+            'token': token.key,
+            'userDetail' : {}
+        }, status=HTTP_200_OK)
+    except ValueError as e:
+        return Response(e.args[0], status.HTTP_400_BAD_REQUEST)
 
-    return Response({
-        'user': user_serialized.data,
-        'expires_in': expires_in(token),
-        'token': token.key
-    }, status=HTTP_200_OK)
-
-
-@api_view(["GET"])
+@api_view(["POST"])
 def user_info(request):
-    return Response({
-        'user': request.user.username,
-        'expires_in': expires_in(request.auth)
-    }, status=HTTP_200_OK)
+    try:
+        data = request.data
+        header = request.headers
+        user=User.objects.get(username=data['username'])
+        token, _ = Token.objects.get_or_create(user=user)
+        if (str(token) == header['Authorization'].split(' ')[1]):
+
+            return Response({
+                'user': request.user.username,
+                'expires_in': expires_in(request.auth)
+            }, status=HTTP_200_OK)
+        else:
+            return Response('Error on authentication')
+    except ValueError as e:
+        return Response(e.args[0], status.HTTP_400_BAD_REQUEST)
 
 
 @api_view(['POST'])
 def update_package(request):
     """
-    this function updates user's package
+    this function updates user's package  {"username":"PEA001", "method":"update_package", "detail":{"new_package":"2"}}
     :param package name
     """
-    data = json.loads(str(request.body, encoding='utf-8'))
-    user = User.objects.get(username=data['username'])
-    acc = accounts.objects.get(owner=user)
-    acc.changePackage(package=data['new_package'])
-    return Response({
-        'text':'Okay'
-    }, status=HTTP_200_OK)
+    try:
+        data = json.loads(str(request.body, encoding='utf-8'))
+        header = request.headers
+        if (data['method']=='update_package'):
+            user = User.objects.get(username=data['username'])
+            acc = accounts.objects.get(owner=user)
+            old_package = str(acc.package_type)
+            acc.changePackage(package=data['detail']['new_package'])
+            user = User.objects.get(username=data['username'])
+            token, _ = Token.objects.get_or_create(user=user)
+            if (str(token) == header['Authorization'].split(' ')[1]):
+                return Response({
+                    'text': 'okay',
+                    'user': data['username'],
+                    'old_package': old_package,
+                    'new_package': data['detail']['new_package']
+                }, status=HTTP_200_OK)
+            else:
+                return Response('Error on authentication')
+        else:
+            return Response('Error method')
+    except ValueError as e:
+        return Response(e.args[0], status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['POST'])
+@permission_classes((AllowAny,))  # here we specify permission by default we set IsAuthenticated
+def getCarbonReduce(request):
+    try:
+        data = json.loads(str(request.body, encoding='utf-8'))
+        header = request.headers
+        if (data['method']=='getCarbonReduce'):
+            user = User.objects.get(username=data['username'])
+            token, _ = Token.objects.get_or_create(user=user)
+
+            if (str(token) == header['Authorization'].split(' ')[1]):
+                pass
+            else:
+                return Response('Error on authentication')
+        else:
+            return Response('Error method')
+
+
+    except ValueError as e:
+        return Response(e.args[0], status.HTTP_400_BAD_REQUEST)
