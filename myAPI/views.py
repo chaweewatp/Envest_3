@@ -7,7 +7,7 @@ from rest_framework import status
 import json
 
 from django.contrib.auth.models import User
-from mymeter.models import accounts, sub_area
+from mymeter.models import accounts, sub_area, meters
 
 
 # Create your views here.
@@ -230,14 +230,17 @@ def getCarbonReduce(request):
         if (data['method']=='getCarbonReduce'):
             user = User.objects.get(username=data['username'])
             token, _ = Token.objects.get_or_create(user=user)
-
             if (str(token) == header['Authorization'].split(' ')[1]):
-                pass
+                acc = accounts.objects.get(owner=user)
+                met = meters.objects.get(owner=acc)
+                return Response({
+                    'text': 'okay',
+                    'user': data['username'],
+                    'carbonReduce': met.carbonReduce,
+                }, status=HTTP_200_OK)
             else:
                 return Response('Error on authentication')
         else:
             return Response('Error method')
-
-
     except ValueError as e:
         return Response(e.args[0], status.HTTP_400_BAD_REQUEST)
