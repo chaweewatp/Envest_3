@@ -179,7 +179,6 @@ def user_info(request):
         user=User.objects.get(username=data['username'])
         token, _ = Token.objects.get_or_create(user=user)
         if (str(token) == header['Authorization'].split(' ')[1]):
-
             return Response({
                 'user': request.user.username,
                 'expires_in': expires_in(request.auth)
@@ -292,6 +291,35 @@ def getRemainPackage(request):
                     'user': data['username'],
                     'used': 1239,
                     'remain': 320
+                }, status=HTTP_200_OK)
+            else:
+                return Response('Error on authentication')
+        else:
+            return Response('Error method')
+    except ValueError as e:
+        return Response(e.args[0], status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['POST'])
+def getPackage(request):
+    """
+    this function updates user's package  {"username":"PEA001", "method":"update_package", "detail":{"new_package":"2"}}
+    :param package name
+    """
+    try:
+        data = json.loads(str(request.body, encoding='utf-8'))
+        header = request.headers
+        if (data['method']=='getPackage'):
+            user = User.objects.get(username=data['username'])
+            acc = accounts.objects.get(owner=user)
+            package = str(acc.package_type)
+            user = User.objects.get(username=data['username'])
+            token, _ = Token.objects.get_or_create(user=user)
+            if (str(token) == header['Authorization'].split(' ')[1]):
+                return Response({
+                    'text': 'okay',
+                    'user': data['username'],
+                    'package': package,
                 }, status=HTTP_200_OK)
             else:
                 return Response('Error on authentication')

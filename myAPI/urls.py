@@ -16,6 +16,6 @@ urlpatterns = [
     path('getCarbonReduce/', views.getCarbonReduce, name='getCarbonReduce'),
     path('getUsage/', views.getUsage, name='getUsage'),
     path('getRemainPackage/', views.getRemainPackage, name='getRemainPackage'),
-
+    path('getPackage/', views.getPackage, name='getPackage'),
 
 ]
