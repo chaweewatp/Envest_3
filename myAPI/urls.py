@@ -14,5 +14,6 @@ urlpatterns = [
     path('user_info/', views.user_info, name='user_info'),
     path('update_package/', views.update_package, name='update_package'),
     path('getCarbonReduce/', views.getCarbonReduce, name='getCarbonReduce'),
+    path('getUsage/', views.getUsage, name='getUsage'),
 
 ]

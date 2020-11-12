@@ -244,3 +244,33 @@ def getCarbonReduce(request):
             return Response('Error method')
     except ValueError as e:
         return Response(e.args[0], status.HTTP_400_BAD_REQUEST)
+
+
+
+
+@api_view(['POST'])
+@permission_classes((AllowAny,))  # here we specify permission by default we set IsAuthenticated
+def getUsage(request):
+    try:
+        data = json.loads(str(request.body, encoding='utf-8'))
+        header = request.headers
+        if (data['method']=='getUsage'):
+            user = User.objects.get(username=data['username'])
+            token, _ = Token.objects.get_or_create(user=user)
+            if (str(token) == header['Authorization'].split(' ')[1]):
+                acc = accounts.objects.get(owner=user)
+                met = meters.objects.get(owner=acc)
+                return Response({
+                    'text': 'okay',
+                    'user': data['username'],
+                    'lastMonth': 'พฤศจิกายน',
+                    'total':2039,
+                    'grid':1392,
+                    'vspp':2039-1392,
+                }, status=HTTP_200_OK)
+            else:
+                return Response('Error on authentication')
+        else:
+            return Response('Error method')
+    except ValueError as e:
+        return Response(e.args[0], status.HTTP_400_BAD_REQUEST)
