@@ -15,5 +15,7 @@ urlpatterns = [
     path('update_package/', views.update_package, name='update_package'),
     path('getCarbonReduce/', views.getCarbonReduce, name='getCarbonReduce'),
     path('getUsage/', views.getUsage, name='getUsage'),
+    path('getRemainPackage/', views.getRemainPackage, name='getRemainPackage'),
+
 
 ]

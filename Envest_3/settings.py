@@ -70,7 +70,7 @@ REST_FRAMEWORK = {
     )
 }
 
-TOKEN_EXPIRED_AFTER_SECONDS=600
+TOKEN_EXPIRED_AFTER_SECONDS=1200
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
