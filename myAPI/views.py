@@ -27,13 +27,12 @@ def getEnergyData(request):
         data = json.loads(str(request.body, encoding='utf-8'))
         return Response([{"meter_id": "1",
                           "month": {"text": data['month'],
-                                    "vspp": [130, 230, 400, 550, 200, 500, 300, 200, 100, 200, 40, 50, 600, 10, 230, 40,
-                                             200, 40, 50, 600, 10, 230, 40],
-                                    "grid": [130, 230, 400, 550, 200, 500, 300, 200, 100, 200, 40, 50, 600, 10, 230, 40,
-                                             200, 40, 50, 600, 10, 230, 40]},
+                                    "vspp":list(np.random.randint(low=2003, high=2334, size=31)),
+                                    "grid":list(np.random.randint(low=409, high=899, size=31))},
                           "day": {"text": data['date'],
-                                  "vspp": [0, 0, 0, 0, 0, 0, 0, 1, 7, 20, 4, 5, 60],
-                                  "grid": [13, 23, 40, 55, 20, 50, 30, 0, 0, 0, 0, 0, 0, ]},
+
+                                  "vspp": [0, 0, 0, 0, 0, 0, 0, 0] + list(np.random.randint(low=20, high=60, size=4)),
+                                  "grid": list(np.random.randint(low=20, high=60, size=8))+[0, 0, 0, 0, 0, 0, ]},
                           "year": {"text": data['year']}
                           }])
     except ValueError as e:
@@ -45,14 +44,11 @@ def getEnergyData(request):
 def getEnergyDataMonth(request):
     try:
         data = json.loads(str(request.body, encoding='utf-8'))
+
         return Response([{"meter_id": "1",
                           "month": {"text": data['month'],
-                                    "vspp": [130, 230, 400, 550, 200, 500, 300, 200, 100, 200, 40, 50, 600, 10, 230, 40,
-                                             200, 40, 50, 600, 10, 230,
-                                             230, 40, 200, 40, 50, 600, 10, 230],
-                                    "grid": [130, 230, 400, 550, 200, 500, 300, 200, 100, 200, 40, 50, 600, 10, 230, 40,
-                                             200, 40, 50, 600, 10, 230,
-                                             400, 400, 550, 200, 500, 40, 50, 600]},
+                                    "vspp":list(np.random.randint(low=2003, high=2334, size=31)),
+                                    "grid":list(np.random.randint(low=409, high=899, size=31))},
                           "year": {"text": data['year']}
                           }])
 
@@ -67,10 +63,9 @@ def getEnergyDataDay(request):
         data = json.loads(str(request.body, encoding='utf-8'))
         return Response([{"meter_id": "1",
                           "day": {"text": data['date'],
-                                  "vspp": [0, 0, 0, 0, 0, 0, 0, 0, 5, 20, 4, 5, 60, 13, 23, 40, 55, 0, 0, 0, 0, 0, 0,
+                                  "vspp": [0, 0, 0, 0, 0, 0, 0, 0]+list(np.random.randint(low=20, high=60, size=9))+[0, 0, 0, 0, 0, 0,
                                            0],
-                                  "grid": [13, 23, 40, 55, 20, 50, 30, 20, 0, 0, 0, 0, 0, 0, 0, 0, 0, 50, 40, 20, 30,
-                                           10, 20, 20]
+                                  "grid": list(np.random.randint(low=0, high=30, size=8))+list(np.random.randint(low=0, high=20, size=9))+list(np.random.randint(low=0, high=30, size=7))
                                   },
                           "month": {"text": data['month']},
                           "year": {"text": data['year']}
@@ -355,8 +350,37 @@ def getProfile(request):
                         'tel':'092838482',
                         'email':'seng.@inthanin.com'
                 }, status=HTTP_200_OK)
+                elif str(user)=='PEA002':
+                    return Response({
+                        'text': 'okay',
+                        'user': data['username'],
+                        'place':'PEA innovatin hub',
+                        'CA':'2399481012',
+                        'name':'คุณมุก',
+                        'tel':'0923329123',
+                        'email':'mizkaimook@ihub.com'
+                }, status=HTTP_200_OK)
+                elif str(user)=='PEA003':
+                    return Response({
+                        'text': 'okay',
+                        'user': data['username'],
+                        'place':'PEA Coop',
+                        'CA':'2399488501',
+                        'name':'ผจก.',
+                        'tel':'092838482',
+                        'email':'xxx@PEACOOP.com'
+                }, status=HTTP_200_OK)
+                else:
+                    return Response({
+                        'text': 'okay',
+                        'user': data['username'],
+                        'place':'Inthanin',
+                        'CA':'20299491023',
+                        'name':'คุณเส็ง',
+                        'tel':'092838482',
+                        'email':'seng.@inthanin.com'
+                }, status=HTTP_200_OK)
             else:
-                print('Here 2')
                 return Response('Error on authentication')
         else:
             return Response('Error method')
@@ -382,9 +406,32 @@ def getUsage2(request):
                     return Response({
                         'text': 'okay',
                         'user': data['username'],
-                        'total':[2093,2291,2729,2842,2923,2349,2212,2324,2192,1992],
-                        'vspp':[1093,1291,1329,1442,1123,1342,1312,1224,1292,1092],
+                        'total' : [2093,2291,2729,2842,2923,2349,2212,2324,2192,1992],
+                        'vspp' : [1093,1291,1329,1442,1123,1342,1312,1224,1292,1092],
                 }, status=HTTP_200_OK)
+                elif str(user)=='PEA002':
+                    return Response({
+                        'text': 'okay',
+                        'user': data['username'],
+                        'total':[493,691,829,942,1223,1249,812,724,892,992],
+                        'vspp':[239,212,322,422,223,123,323,332,233,232],
+                }, status=HTTP_200_OK)
+
+                elif str(user)=='PEA003':
+                    return Response({
+                        'text': 'okay',
+                        'user': data['username'],
+                        'total':[4493,4691,4829,4942,4223,4249,4812,4724,4892,4992],
+                        'vspp':[2239,2212,2322,2422,2223,2123,2323,2332,2233,2232],
+                }, status=HTTP_200_OK)
+
+                else:
+                    return Response({
+                        'text': 'okay',
+                        'user': data['username'],
+                        'total': [4493, 4691, 4829, 4942, 4223, 4249, 4812, 4724, 4892, 4992],
+                        'vspp': [2239, 2212, 2322, 2422, 2223, 2123, 2323, 2332, 2233, 2232],
+                    }, status=HTTP_200_OK)
             else:
                 return Response('Error on authentication')
         else:
