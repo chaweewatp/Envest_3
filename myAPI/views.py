@@ -345,7 +345,7 @@ def getProfile(request):
             user = User.objects.get(username=data['username'])
             token, _ = Token.objects.get_or_create(user=user)
             if (str(token) == header['Authorization'].split(' ')[1]):
-                if user=='PEA001':
+                if str(user)=='PEA001':
                     return Response({
                         'text': 'okay',
                         'user': data['username'],
@@ -356,6 +356,7 @@ def getProfile(request):
                         'email':'seng.@inthanin.com'
                 }, status=HTTP_200_OK)
             else:
+                print('Here 2')
                 return Response('Error on authentication')
         else:
             return Response('Error method')
