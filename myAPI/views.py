@@ -362,3 +362,32 @@ def getProfile(request):
             return Response('Error method')
     except ValueError as e:
         return Response(e.args[0], status.HTTP_400_BAD_REQUEST)
+
+
+
+@api_view(['POST'])
+def getUsage2(request):
+    """
+    this function updates user's package  {"username":"PEA001", "method":"update_package", "detail":{"new_package":"2"}}
+    :param package name
+    """
+    try:
+        data = json.loads(str(request.body, encoding='utf-8'))
+        header = request.headers
+        if (data['method']=='getUsage2'):
+            user = User.objects.get(username=data['username'])
+            token, _ = Token.objects.get_or_create(user=user)
+            if (str(token) == header['Authorization'].split(' ')[1]):
+                if str(user)=='PEA001':
+                    return Response({
+                        'text': 'okay',
+                        'user': data['username'],
+                        'total':[2093,2291,2729,2842,2923,2349,2212,2324,2192,1992],
+                        'vspp':[1093,1291,1329,1442,1123,1342,1312,1224,1292,1092],
+                }, status=HTTP_200_OK)
+            else:
+                return Response('Error on authentication')
+        else:
+            return Response('Error method')
+    except ValueError as e:
+        return Response(e.args[0], status.HTTP_400_BAD_REQUEST)
