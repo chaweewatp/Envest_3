@@ -17,5 +17,6 @@ urlpatterns = [
     path('getUsage/', views.getUsage, name='getUsage'),
     path('getRemainPackage/', views.getRemainPackage, name='getRemainPackage'),
     path('getPackage/', views.getPackage, name='getPackage'),
+    path('getProfile/', views.getProfile, name='getProfile'),
 
 ]
