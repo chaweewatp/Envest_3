@@ -10,6 +10,9 @@ from django.contrib.auth.models import User
 from mymeter.models import accounts, sub_area, meters
 
 
+import numpy as np
+
+
 # Create your views here.
 
 @api_view(['POST'])
@@ -320,6 +323,37 @@ def getPackage(request):
                     'text': 'okay',
                     'user': data['username'],
                     'package': package,
+                }, status=HTTP_200_OK)
+            else:
+                return Response('Error on authentication')
+        else:
+            return Response('Error method')
+    except ValueError as e:
+        return Response(e.args[0], status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['POST'])
+def getProfile(request):
+    """
+    this function updates user's package  {"username":"PEA001", "method":"update_package", "detail":{"new_package":"2"}}
+    :param package name
+    """
+    try:
+        data = json.loads(str(request.body, encoding='utf-8'))
+        header = request.headers
+        if (data['method']=='getProfile'):
+            user = User.objects.get(username=data['username'])
+            token, _ = Token.objects.get_or_create(user=user)
+            if (str(token) == header['Authorization'].split(' ')[1]):
+                if user=='PEA001':
+                    return Response({
+                        'text': 'okay',
+                        'user': data['username'],
+                        'place':'Inthanin',
+                        'CA':'20299491023',
+                        'name':'คุณเส็ง',
+                        'tel':'092838482',
+                        'email':'seng.@inthanin.com'
                 }, status=HTTP_200_OK)
             else:
                 return Response('Error on authentication')
